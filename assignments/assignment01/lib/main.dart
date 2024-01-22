@@ -31,12 +31,13 @@ class MyApp extends StatelessWidget {
           children: <Widget>[
             //TODO: Put your code here to complete this app.
             Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
                     width: 100,
                     height: 100,
                     decoration: BoxDecoration(
-                        color: const Color.fromARGB(255, 203, 184, 13),
+                        color: Colors.amber,
                         border: Border.all(color: Colors.black, width: 3)),
                     child: const Center(
                       child: Text("Container 1"),
@@ -52,6 +53,28 @@ class MyApp extends StatelessWidget {
                     ),
                   ),
                 ),
+              ],
+            ),
+            Column(
+              children: [
+                Container(
+                    width: 100,
+                    height: 100,
+                    color: Colors.yellow,
+                    margin: const EdgeInsets.only(top: 20),
+                    padding: const EdgeInsets.only(top: 250.0),
+                    child: const Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Text("Container 3"),
+                    )),
+                // Container(
+                //     width: 100,
+                //     padding: const EdgeInsets.fromLTRB(0, 250, 0, 0),
+                //     color: Colors.blue,
+                //     child: const Align(
+                //       alignment: Alignment.topCenter,
+                //       child: Text("Container 4"),
+                //     )),
               ],
             )
           ],
