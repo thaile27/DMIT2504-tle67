@@ -1,4 +1,4 @@
-// ignore_for_file: use_key_in_widget_constructors, todo
+// ignore_for_file: use_key_in_widget_constructors, todo, sized_box_for_whitespace
 
 import 'package:flutter/material.dart';
 
@@ -57,24 +57,59 @@ class MyApp extends StatelessWidget {
             ),
             Column(
               children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 10.0),
+                  child: Container(
+                    height: 100,
+                    width: 100,
+                    decoration: const BoxDecoration(color: Colors.yellow),
+                    child: const Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Text('Container 3'),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 10.0),
+                  child: Container(
+                    height: 100,
+                    width: 100,
+                    decoration: const BoxDecoration(color: Colors.blue),
+                    child: const Align(
+                      alignment: Alignment.centerRight,
+                      child: Text('Container 4'),
+                    ),
+                  ),
+                )
+              ],
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
                 Container(
                     width: 100,
                     height: 100,
-                    color: Colors.yellow,
-                    margin: const EdgeInsets.only(top: 20),
-                    padding: const EdgeInsets.only(top: 250.0),
-                    child: const Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Text("Container 3"),
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.black,
+                        border: Border.all(color: Colors.white, width: 3)),
+                    child: const Center(
+                      child: Text("Container 5",
+                          style: TextStyle(color: Colors.white)),
                     )),
-                // Container(
-                //     width: 100,
-                //     padding: const EdgeInsets.fromLTRB(0, 250, 0, 0),
-                //     color: Colors.blue,
-                //     child: const Align(
-                //       alignment: Alignment.topCenter,
-                //       child: Text("Container 4"),
-                //     )),
+                Container(
+                  height: 100,
+                  width: 100,
+                  decoration: const BoxDecoration(
+                      shape: BoxShape.rectangle, color: Colors.red),
+                  child: const Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      "Con 6",
+                      style: TextStyle(fontSize: 30),
+                    ),
+                  ),
+                )
               ],
             )
           ],
