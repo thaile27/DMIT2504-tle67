@@ -107,6 +107,54 @@ class MyFirstPageState extends State<MyFirstPage> {
                   // a submit button that will show a
                   // snackbar with the "firstName"
                   // if validation is satisfied.
+                  TextFormField(
+                    controller: textEditingController,
+                    onChanged: (value) {
+                      print(value);
+                    },
+                    onFieldSubmitted: (text) {
+                      print('onFieldSubmitted Email Text = $text');
+                    },
+                    validator: (input) {
+                      // The ! tells the compiler that input could
+                      // be null, and not to throw an error.
+                      print('validator/email running');
+                      return input!.isNotEmpty && input.length < 20
+                          ? null
+                          : "first name must be 1-20 characters";
+                    },
+                    onSaved: (input) {
+                      // The onSaved event will only be triggered
+                      // when the elevated button is pressed and both
+                      // TextFormFields are valid.
+                      print('onSaved first name = $input');
+                      firstName = input;
+                    },
+                    maxLength: 20,
+                    decoration: const InputDecoration(
+                      //border: OutlineInputBorder(),
+                      icon: Icon(Icons.hourglass_top),
+                      labelText: 'first name',
+                      helperText: 'min 1, max 20',
+                      suffixIcon:
+                          Icon(Icons.check_circle, color: Colors.pinkAccent),
+                    ),
+                  ),
+                  Container(
+                    alignment: Alignment.centerRight,
+                    margin: const EdgeInsets.only(top: 10),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        if (formKey.currentState!.validate()) {
+                          formKey.currentState!.save();
+                          msg1 = 'Hi There, Your name is $firstName';
+                          MySnackBar(text: msg1).show();
+                          setState(() {});
+                        }
+                      },
+                      child: const Text('Sign in'),
+                    ),
+                  ),
                 ],
               ),
             ),

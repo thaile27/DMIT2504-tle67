@@ -11,19 +11,20 @@ class MySnackBar {
     //print(scaffoldMessengerKey.currentState);
     scaffoldMessengerKey.currentState?.showSnackBar(get());
   }
-  SnackBar get(){
-  return SnackBar(
-    duration: const Duration(seconds: 1),
-    behavior: SnackBarBehavior.floating,
-    content: Row(
-      children: [
-        const Icon(Icons.accessibility_new_rounded),
-        const SizedBox(
-          width: 10,
-        ),
-        Text(text),
-      ],
-    ),
-  );
-}
+
+  SnackBar get() {
+    return SnackBar(
+      duration: const Duration(seconds: 1),
+      behavior: SnackBarBehavior.floating,
+      content: Row(
+        children: [
+          const Icon(Icons.favorite, color: Colors.pink),
+          const SizedBox(
+            width: 10,
+          ),
+          Text(text),
+        ],
+      ),
+    );
+  }
 }
