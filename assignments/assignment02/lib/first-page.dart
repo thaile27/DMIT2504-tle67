@@ -138,7 +138,7 @@ class MyFirstPageState extends State<MyFirstPage> {
                       icon: Icon(Icons.hourglass_top),
                       labelText: 'first name',
                       helperText: 'min 1, max 20',
-                      suffixIcon: Icon(Icons.check_circle),
+                      suffixIcon: Icon(Icons.check_circle, color: Colors.pink),
                     ),
                   ),
                   Container(
