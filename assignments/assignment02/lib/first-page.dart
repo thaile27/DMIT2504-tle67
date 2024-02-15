@@ -158,8 +158,8 @@ class MyFirstPageState extends State<MyFirstPage> {
                       onPressed: () {
                         if (formKey.currentState!.validate()) {
                           formKey.currentState!.save();
-                          msg1 = 'Hi There, Your name is $firstName';
-                          MySnackBar(text: msg1).show();
+                          msg2 = 'Hi There, Your name is $firstName';
+                          MySnackBar(text: msg2).show();
                           setState(() {});
                         }
                       },
