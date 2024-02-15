@@ -14,15 +14,25 @@ class MySnackBar {
 
   SnackBar get() {
     return SnackBar(
-      duration: const Duration(seconds: 1),
+      duration: const Duration(seconds: 3),
       behavior: SnackBarBehavior.floating,
       content: Row(
         children: [
-          const Icon(Icons.favorite, color: Colors.pink),
+          const Icon(Icons.favorite, color: Colors.white),
           const SizedBox(
             width: 10,
           ),
           Text(text),
+          Container(
+            margin: const EdgeInsets.only(left: 10),
+            child: OutlinedButton(
+                onPressed: () {
+                  print(text);
+                },
+                child: const Text(
+                  'Sign in',
+                )),
+          )
         ],
       ),
     );

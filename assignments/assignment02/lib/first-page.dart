@@ -67,7 +67,6 @@ class MyFirstPageState extends State<MyFirstPage> {
                           setState(() {
                             timesClicked++;
                             msg1 = 'Clicked $timesClicked';
-                            print('clicked $timesClicked');
                           });
                         }
                       : null,
@@ -109,16 +108,9 @@ class MyFirstPageState extends State<MyFirstPage> {
                   // if validation is satisfied.
                   TextFormField(
                     controller: textEditingController,
-                    onChanged: (value) {
-                      print(value);
-                    },
-                    onFieldSubmitted: (text) {
-                      print('onFieldSubmitted Email Text = $text');
-                    },
                     validator: (input) {
                       // The ! tells the compiler that input could
                       // be null, and not to throw an error.
-                      print('validator/email running');
                       return input!.isNotEmpty && input.length < 20
                           ? null
                           : "first name must be 1-20 characters";
@@ -127,7 +119,6 @@ class MyFirstPageState extends State<MyFirstPage> {
                       // The onSaved event will only be triggered
                       // when the elevated button is pressed and both
                       // TextFormFields are valid.
-                      print('onSaved first name = $input');
                       firstName = input;
                     },
                     maxLength: 20,
