@@ -62,6 +62,12 @@ class MyFirstPageState extends State<MyFirstPage> {
               Visibility(
                 visible: enabled,
                 child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    padding: const EdgeInsets.all(15.0),
+                  ),
                   onPressed: enabled
                       ? () {
                           setState(() {
@@ -73,10 +79,16 @@ class MyFirstPageState extends State<MyFirstPage> {
                   child: Text(timesClicked == 0 ? 'Click Me' : msg1),
                 ),
               ),
-
+              SizedBox(width: 10),
               Visibility(
                 visible: enabled,
                 child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    padding: const EdgeInsets.all(15.0),
+                  ),
                   onPressed: enabled
                       ? () {
                           setState(() {
@@ -123,18 +135,26 @@ class MyFirstPageState extends State<MyFirstPage> {
                     },
                     maxLength: 20,
                     decoration: const InputDecoration(
-                      //border: OutlineInputBorder(),
                       icon: Icon(Icons.hourglass_top),
                       labelText: 'first name',
                       helperText: 'min 1, max 20',
-                      suffixIcon:
-                          Icon(Icons.check_circle, color: Colors.pinkAccent),
+                      suffixIcon: Icon(Icons.check_circle),
                     ),
                   ),
                   Container(
                     alignment: Alignment.centerRight,
                     margin: const EdgeInsets.only(top: 10),
                     child: ElevatedButton(
+                      style: ButtonStyle(
+                        shape: MaterialStateProperty.all(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        padding: MaterialStateProperty.all(
+                          const EdgeInsets.all(15.0),
+                        ),
+                      ),
                       onPressed: () {
                         if (formKey.currentState!.validate()) {
                           formKey.currentState!.save();
