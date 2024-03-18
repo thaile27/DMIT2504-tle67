@@ -60,7 +60,26 @@ class HomeViewState extends State<HomeView> {
           ),
           Expanded(
             //TODO: Replace this Text child with a ListView.builder
-            child: Text('Hi'),
+            child: ListView.builder(
+                itemCount: stockList.length,
+                itemBuilder: (BuildContext context, index) {
+                  return Card(
+                    child: ListTile(
+                      title: Text(
+                        'Symbol: ${stockList[index]['symbol']}',
+                        style: const TextStyle(fontSize: 25),
+                      ),
+                      subtitle: Text(
+                        'Name: ${stockList[index]['name']} ',
+                        style: const TextStyle(fontSize: 15),
+                      ),
+                      trailing: Text(
+                        'Price: \$${stockList[index]['price']} USD ',
+                        style: const TextStyle(fontSize: 15),
+                      ),
+                    ),
+                  );
+                }),
           ),
         ],
       ),
@@ -110,8 +129,20 @@ class HomeViewState extends State<HomeView> {
                       //then print all stocks to the console and,
                       //finally call setstate at the end.
 
-                        stockService.getCompanyInfo(symbol)
-
+                      var data = await stockService.getCompanyInfo(symbol);
+                      var stockData = await stockService.getQuote(symbol);
+                      if (data == null || stockData == null) {
+                        print("Call to get Restful API data failed");
+                      } else {
+                        await databaseService.insertStock({
+                          'symbol': symbol,
+                          'name': data['Name'],
+                          'price': stockData['Global Quote']['05. price'],
+                        });
+                        stockList = await databaseService.getAllStocksFromDb();
+                        databaseService.printAllStocksInDbToConsole();
+                        setState(() {});
+                      }
                     } catch (e) {
                       print('HomeView inputStock catch: $e');
                     }
