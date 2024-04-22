@@ -11,12 +11,12 @@ class SQFliteDbService {
     try {
       //TODO: Put your code here to complete this method.
       var databasesPath = await sqflitePackage.getDatabasesPath();
-      path = pathPackage.join(databasesPath, 'stocks.db');
+      path = pathPackage.join(databasesPath, 'Books.db');
       db = await sqflitePackage.openDatabase(
         path,
         onCreate: (sqflitePackage.Database db1, int version) async {
           await db1.execute(
-            "CREATE TABLE Stocks (symbol TEXT PRIMARY KEY, name INT, price REAL)",
+            "CREATE TABLE Books (title TEXT PRIMARY KEY, author TEXT, first_publish_year INT)",
           );
         },
         version: 1,
@@ -29,13 +29,13 @@ class SQFliteDbService {
   Future<void> printAllStocksInDbToConsole() async {
     try {
       //TODO: Put your code here to complete this method.
-      List<Map<String, dynamic>> stockList = await getAllStocksFromDb();
-      if (stockList.isEmpty) {
+      List<Map<String, dynamic>> bookList = await getAllStocksFromDb();
+      if (bookList.isEmpty) {
         print('No records in the database');
       } else {
-        for (var stock in stockList) {
+        for (var book in bookList) {
           print(
-              'Symbol: ${stock['symbol']}, Name: ${stock['name']}, Price: ${stock['price']})');
+              'Title: ${book['title']}, Author: ${book['author']}, First Release Year: ${book['first_publish_year']})');
         }
       }
     } catch (e) {
@@ -47,8 +47,8 @@ class SQFliteDbService {
     try {
       //TODO: Put your code here to complete this method.
       // Replace this return with valid data.
-      final List<Map<String, dynamic>> stocks = await db.query('Stocks');
-      return stocks;
+      final List<Map<String, dynamic>> books = await db.query('Books');
+      return books;
     } catch (e) {
       print('SQFliteDbService getAllStocksFromDb: $e');
       return <Map<String, dynamic>>[];
@@ -65,7 +65,7 @@ class SQFliteDbService {
     }
   }
 
-  Future<void> insertStock(Map<String, dynamic> stock) async {
+  Future<void> insertBook(Map<String, dynamic> book) async {
     try {
       //TODO:
       //Put code here to insert a stock into the database.
@@ -75,8 +75,8 @@ class SQFliteDbService {
       //multiple times, it replaces the previous data.
 
       await db.insert(
-        'Stocks',
-        stock,
+        'Books',
+        book,
         conflictAlgorithm: sqflitePackage.ConflictAlgorithm.replace,
       );
     } catch (e) {
@@ -84,29 +84,29 @@ class SQFliteDbService {
     }
   }
 
-  Future<void> updateStock(Map<String, dynamic> stock) async {
+  Future<void> updateBook(Map<String, dynamic> book) async {
     try {
       //TODO:
       //Put code here to update stock info.
       await db.update(
-        'Stocks',
-        stock,
-        where: 'symbol = ?',
-        whereArgs: [stock['symbol']],
+        'Books',
+        book,
+        where: 'title = ?',
+        whereArgs: [book['title']],
       );
     } catch (e) {
       print('SQFliteDbService updateStock: $e');
     }
   }
 
-  Future<void> deleteStock(Map<String, dynamic> stock) async {
+  Future<void> deleteBook(Map<String, dynamic> book) async {
     try {
       //TODO:
       //Put code here to delete a stock from the database.
       await db.delete(
-        'Stocks',
-        where: 'symbol = ?',
-        whereArgs: [stock['symbol']],
+        'Books',
+        where: 'title = ?',
+        whereArgs: [book['title']],
       );
     } catch (e) {
       print('SQFliteDbService deleteStock: $e');

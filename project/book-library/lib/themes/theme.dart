@@ -217,7 +217,7 @@ Color _getForegroundColor(Set<MaterialState> states) {
 
 const ColorScheme _colorScheme = ColorScheme(
   //primary: blue200,
-  primary: pink100,
+  primary: blue200,
   onPrimary: brown900,
   secondary: pink50,
   onSecondary: brown900,

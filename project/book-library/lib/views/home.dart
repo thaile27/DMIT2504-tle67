@@ -13,8 +13,8 @@ class HomeView extends StatefulWidget {
 class HomeViewState extends State<HomeView> {
   final StockService stockService = StockService();
   final SQFliteDbService databaseService = SQFliteDbService();
-  List<Map<String, dynamic>> stockList = [];
-  String stockSymbol = "";
+  List<Map<String, dynamic>> bookList = [];
+  String bookTitle = "";
 
   @override
   void initState() {
@@ -24,7 +24,7 @@ class HomeViewState extends State<HomeView> {
 
   void getOrCreateDbAndDisplayAllStocksInDb() async {
     await databaseService.getOrCreateDatabaseHandle();
-    stockList = await databaseService.getAllStocksFromDb();
+    bookList = await databaseService.getAllStocksFromDb();
     await databaseService.printAllStocksInDbToConsole();
     setState(() {});
   }
@@ -33,7 +33,7 @@ class HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Stock Ticker'),
+        title: const Text('Book Library'),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -45,37 +45,37 @@ class HomeViewState extends State<HomeView> {
             onPressed: () async {
               await databaseService.deleteDb();
               await databaseService.getOrCreateDatabaseHandle();
-              stockList = await databaseService.getAllStocksFromDb();
+              bookList = await databaseService.getAllStocksFromDb();
               await databaseService.printAllStocksInDbToConsole();
               setState(() {});
             },
           ),
           ElevatedButton(
             child: const Text(
-              'Add Stock',
+              'Add Book',
             ),
             onPressed: () {
-              inputStock();
+              inputBook();
             },
           ),
           Expanded(
             //TODO: Replace this Text child with a ListView.builder
             child: ListView.builder(
-                itemCount: stockList.length,
+                itemCount: bookList.length,
                 itemBuilder: (BuildContext context, index) {
                   return Card(
                     child: ListTile(
                       title: Text(
-                        'Symbol: ${stockList[index]['symbol']}',
-                        style: const TextStyle(fontSize: 25),
+                        'Title: ${bookList[index]['title']}',
+                        style: const TextStyle(fontSize: 15),
                       ),
                       subtitle: Text(
-                        'Name: ${stockList[index]['name']} ',
-                        style: const TextStyle(fontSize: 15),
+                        'Author: ${bookList[index]['author']} ',
+                        style: const TextStyle(fontSize: 10),
                       ),
                       trailing: Text(
-                        'Price: \$${stockList[index]['price']} USD ',
-                        style: const TextStyle(fontSize: 15),
+                        'First release year: ${bookList[index]['first_publish_year']}',
+                        style: const TextStyle(fontSize: 10),
                       ),
                     ),
                   );
@@ -86,60 +86,39 @@ class HomeViewState extends State<HomeView> {
     );
   }
 
-  Future<void> inputStock() async {
+  Future<void> inputBook() async {
     await showDialog<String>(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: const Text('Input Stock Symbol'),
+            title: const Text('Input Book Title'),
             contentPadding: const EdgeInsets.all(5.0),
             content: TextField(
-              decoration: const InputDecoration(hintText: "Symbol"),
+              decoration: const InputDecoration(hintText: "Title"),
               onChanged: (String value) {
-                stockSymbol = value;
+                bookTitle = value;
               },
             ),
             actions: <Widget>[
               TextButton(
-                child: const Text("Add Stock"),
+                child: const Text("Add Book"),
                 onPressed: () async {
-                  if (stockSymbol.isNotEmpty) {
-                    print('User entered Symbol: $stockSymbol');
-                    var symbol = stockSymbol;
-                    var companyName = '';
-                    var price = '';
+                  if (bookTitle.isNotEmpty) {
+                    print('User entered BookTitle: $bookTitle');
+                    var title = bookTitle;
                     try {
-                      //TODO:
-                      //Inside of this try,
-                      //get the company data with
-                      //stockService.getCompanyInfo,
-                      //then get the stock data with
-                      //stockService.getQuote,
-                      //but remember you must use await,
-                      //then if it is not null,
-                      //dig out the symbol, companyName, and latestPrice,
-                      //then create a new object of
-                      //type Stock and add it to
-                      //the database by calling
-                      //databaseService.insertStock,
-                      //then get all the stocks from
-                      //the database with
-                      //databaseService.getAllStocksFromDb and
-                      //attach them to stockList,
-                      //then print all stocks to the console and,
-                      //finally call setstate at the end.
-
-                      var data = await stockService.getCompanyInfo(symbol);
-                      var stockData = await stockService.getQuote(symbol);
-                      if (data == null || stockData == null) {
+                      var data = await stockService.getCompanyInfo(title);
+                      if (data == null) {
                         print("Call to get Restful API data failed");
                       } else {
-                        await databaseService.insertStock({
-                          'symbol': symbol,
-                          'name': data['Name'],
-                          'price': stockData['Global Quote']['05. price'],
+                        var resultFirstPublishYear = data['first_publish_year'];
+                        print(resultFirstPublishYear);
+                        await databaseService.insertBook({
+                          'title': data['title'],
+                          'author': data['author_name'][0],
+                          'first_publish_year': data['first_publish_year'],
                         });
-                        stockList = await databaseService.getAllStocksFromDb();
+                        bookList = await databaseService.getAllStocksFromDb();
                         databaseService.printAllStocksInDbToConsole();
                         setState(() {});
                       }
@@ -147,7 +126,7 @@ class HomeViewState extends State<HomeView> {
                       print('HomeView inputStock catch: $e');
                     }
                   }
-                  stockSymbol = "";
+                  bookTitle = "";
                   Navigator.pop(context);
                 },
               ),

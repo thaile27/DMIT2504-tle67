@@ -7,30 +7,24 @@ const apiToken = 'QTVXCOASBD3ZIC1J';
 // API library: https://openlibrary.org/dev/docs/api/search
 
 class StockService {
-  Future getCompanyInfo(String symbol) async {
-    var urlUsingOneString = Uri.parse(
-        'https://www.alphavantage.co/query?function=OVERVIEW&symbol=$symbol&apikey=$apiToken');
+  Future getCompanyInfo(String title) async {
+    var urlUsingOneString =
+        Uri.parse('https://openlibrary.org/search.json?title=$title');
 
-    Uri url = Uri(
-        scheme: 'https',
-        host: 'www.alphavantage.co',
-        path: '/query',
-        query: 'function=OVERVIEW&symbol=$symbol&apikey=$apiToken');
-    print('url: $url');
-    NetworkService networkService = NetworkService(url);
+    NetworkService networkService = NetworkService(urlUsingOneString);
     var data = await networkService.getData();
-    print(data);
-    return data;
+    print(data['docs'][0]);
+    return data['docs'][0];
   }
 
-  Future getQuote(String symbol) async {
-    var url = Uri.parse(
-        'https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=$symbol&apikey=$apiToken');
+//   Future getQuote(String symbol) async {
+//     var url = Uri.parse(
+//         'https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=$symbol&apikey=$apiToken');
 
-    print('url: $url');
-    NetworkService networkService = NetworkService(url);
-    var data = await networkService.getData();
-    print(data['Global Quote']['05. price']);
-    return data;
-  }
+//     print('url: $url');
+//     NetworkService networkService = NetworkService(url);
+//     var data = await networkService.getData();
+//     print(data['Global Quote']['05. price']);
+//     return data;
+//   }
 }
