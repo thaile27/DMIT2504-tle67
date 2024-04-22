@@ -26,10 +26,10 @@ class SQFliteDbService {
     }
   }
 
-  Future<void> printAllStocksInDbToConsole() async {
+  Future<void> printAllBooksInDbToConsole() async {
     try {
       //TODO: Put your code here to complete this method.
-      List<Map<String, dynamic>> bookList = await getAllStocksFromDb();
+      List<Map<String, dynamic>> bookList = await getAllBooksFromDb();
       if (bookList.isEmpty) {
         print('No records in the database');
       } else {
@@ -39,18 +39,18 @@ class SQFliteDbService {
         }
       }
     } catch (e) {
-      print('SQFliteDbService printAllStocksInDbToConsole: $e');
+      print('SQFliteDbService printAllBooksInDbToConsole: $e');
     }
   }
 
-  Future<List<Map<String, dynamic>>> getAllStocksFromDb() async {
+  Future<List<Map<String, dynamic>>> getAllBooksFromDb() async {
     try {
       //TODO: Put your code here to complete this method.
       // Replace this return with valid data.
       final List<Map<String, dynamic>> books = await db.query('Books');
       return books;
     } catch (e) {
-      print('SQFliteDbService getAllStocksFromDb: $e');
+      print('SQFliteDbService getAllBooksFromDb: $e');
       return <Map<String, dynamic>>[];
     }
   }

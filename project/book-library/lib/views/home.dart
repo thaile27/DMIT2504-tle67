@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'dart:async';
-import '../services/stock-service.dart';
+import '../services/book-service.dart';
 import '../services/db-service.dart';
 
 class HomeView extends StatefulWidget {
@@ -11,7 +11,7 @@ class HomeView extends StatefulWidget {
 }
 
 class HomeViewState extends State<HomeView> {
-  final StockService stockService = StockService();
+  final BookService bookService = BookService();
   final SQFliteDbService databaseService = SQFliteDbService();
   List<Map<String, dynamic>> bookList = [];
   String bookTitle = "";
@@ -24,8 +24,8 @@ class HomeViewState extends State<HomeView> {
 
   void getOrCreateDbAndDisplayAllStocksInDb() async {
     await databaseService.getOrCreateDatabaseHandle();
-    bookList = await databaseService.getAllStocksFromDb();
-    await databaseService.printAllStocksInDbToConsole();
+    bookList = await databaseService.getAllBooksFromDb();
+    await databaseService.printAllBooksInDbToConsole();
     setState(() {});
   }
 
@@ -45,8 +45,8 @@ class HomeViewState extends State<HomeView> {
             onPressed: () async {
               await databaseService.deleteDb();
               await databaseService.getOrCreateDatabaseHandle();
-              bookList = await databaseService.getAllStocksFromDb();
-              await databaseService.printAllStocksInDbToConsole();
+              bookList = await databaseService.getAllBooksFromDb();
+              await databaseService.printAllBooksInDbToConsole();
               setState(() {});
             },
           ),
@@ -107,7 +107,7 @@ class HomeViewState extends State<HomeView> {
                     print('User entered BookTitle: $bookTitle');
                     var title = bookTitle;
                     try {
-                      var data = await stockService.getCompanyInfo(title);
+                      var data = await bookService.getBookData(title);
                       if (data == null) {
                         print("Call to get Restful API data failed");
                       } else {
@@ -118,8 +118,8 @@ class HomeViewState extends State<HomeView> {
                           'author': data['author_name'][0],
                           'first_publish_year': data['first_publish_year'],
                         });
-                        bookList = await databaseService.getAllStocksFromDb();
-                        databaseService.printAllStocksInDbToConsole();
+                        bookList = await databaseService.getAllBooksFromDb();
+                        databaseService.printAllBooksInDbToConsole();
                         setState(() {});
                       }
                     } catch (e) {

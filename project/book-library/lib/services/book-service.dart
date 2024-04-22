@@ -6,8 +6,8 @@ import '../services/network.dart';
 const apiToken = 'QTVXCOASBD3ZIC1J';
 // API library: https://openlibrary.org/dev/docs/api/search
 
-class StockService {
-  Future getCompanyInfo(String title) async {
+class BookService {
+  Future getBookData(String title) async {
     var urlUsingOneString =
         Uri.parse('https://openlibrary.org/search.json?title=$title');
 
@@ -16,15 +16,4 @@ class StockService {
     print(data['docs'][0]);
     return data['docs'][0];
   }
-
-//   Future getQuote(String symbol) async {
-//     var url = Uri.parse(
-//         'https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=$symbol&apikey=$apiToken');
-
-//     print('url: $url');
-//     NetworkService networkService = NetworkService(url);
-//     var data = await networkService.getData();
-//     print(data['Global Quote']['05. price']);
-//     return data;
-//   }
 }
